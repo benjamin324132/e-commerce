@@ -1,3 +1,4 @@
+import Banner from "@/components/Banner";
 import ExploreCategories from "@/components/ExploreCategories";
 import Hero from "@/components/Hero";
 import ProductList from "@/components/ProductList";
@@ -8,6 +9,7 @@ export default function Home() {
       <Hero />
       <ExploreCategories />
       <ProductList />
+      <Banner />
     </main>
   )
 }

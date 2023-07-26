@@ -9,11 +9,11 @@ const Page = () => {
   return (
     <div className="container">
       <Heading title="Your cart" />
-      <div className="mt-8 flex flex-col md:flex-row md:space-x-6">
+      <div className="my-8 flex flex-col md:flex-row md:space-x-6">
         <div className="flex-1 space-y-4">
           <div className="flex gap-x-4 relative">
             <div className="relative w-40 h-40  md:w-80 md:h-80 bg-neutral-200 rounded-md overflow-hidden">
-              <AspectRatio ratio={4 / 3}>
+              <AspectRatio ratio={1 / 1}>
                 <div className="w-full h-full grid place-items-center bg-neutral-200">
                   <ImageIcon className="w-8 h-8" />
                 </div>
@@ -33,7 +33,7 @@ const Page = () => {
           </div>
           <div className="flex gap-x-4 relative">
             <div className="relative w-40 h-40  md:w-80 md:h-80 bg-neutral-200 rounded-md overflow-hidden">
-              <AspectRatio ratio={4 / 3}>
+              <AspectRatio ratio={1 / 1}>
                 <div className="w-full h-full grid place-items-center bg-neutral-200">
                   <ImageIcon className="w-8 h-8" />
                 </div>

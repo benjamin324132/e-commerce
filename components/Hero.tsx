@@ -12,6 +12,9 @@ const Hero = () => {
   let direction = -1;
 
   useEffect(() => {
+    gsap.config({
+      nullTargetWarn: false
+    })
     gsap.registerPlugin(ScrollTrigger);
     gsap.to(slider.current, {
       scrollTrigger: {

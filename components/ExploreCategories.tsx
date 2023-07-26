@@ -1,26 +1,29 @@
-import Link from "next/link";
-import Heading from "./Heading";
+import { Button } from "./ui/button";
+import Image from "next/image";
 
 const ExploreCategories = () => {
   return (
-    <div className="container pt-32">
-      <Heading
-        title="Categories"
-        subtitle="Explore top categories and find the best for you"
-        center
-      />
-      <div className="grid place-items-center grid-cols-1 md:grid-cols-4 gap-6 py-12">
-        <div className="bg-yellow-400 w-full h-96 rounded-md flex items-center justify-center cursor-pointer hover:opacity-70 transition">
-          <h3 className="text-4xl font-semibold text-white">Category 1</h3>
-        </div>
-        <div className="bg-blue-600 w-full h-96 rounded-md flex items-center justify-center cursor-pointer hover:opacity-70 transition">
-          <h3 className="text-4xl font-semibold text-white">Category 2</h3>
-        </div>
-        <div className="bg-purple-500 w-full h-96 rounded-md flex items-center justify-center cursor-pointer hover:opacity-70 transition">
-          <h3 className="text-4xl font-semibold text-white">Category 3</h3>
-        </div>
-        <div className="bg-rose-400 w-full h-96 rounded-md flex items-center justify-center cursor-pointer hover:opacity-70 transition">
-          <h3 className="text-4xl font-semibold text-white">Category 4</h3>
+    <div className="my-32">
+      <div className="w-full h-[calc(100vh-74px)] bg-black md:p-20">
+        <div className=" max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 h-full">
+          <div className="flex flex-col gap-4 justify-center p-4 md:p-0">
+            <h3 className="text-4xl font-black text-white">Enter in Scene</h3>
+            <p className=" text-xl font-semibold text-white">
+              Everybody has an story. Find your next story
+            </p>
+            <Button className=" bg-white text-black hover:bg-gray-100 w-32">
+              Shop
+            </Button>
+          </div>
+          <div className="relative w-full h-full aspect-square overflow-hidden">
+            <Image
+              src="/images/hero.jpg"
+              fill
+              alt="background"
+              className="object-cover aspect-square"
+              priority={false}
+            />
+          </div>
         </div>
       </div>
     </div>
