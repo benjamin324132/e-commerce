@@ -5,32 +5,10 @@ import { Separator } from "@/components/ui/separator";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { productColumns } from "./components/TableColumns";
+import { getProducts } from "@/actions/products";
 
-const data = [
-  {
-    id: "1",
-    name: "Book 1",
-    price: "200",
-    category: "Drama",
-    createdAt: "2023",
-  },
-  {
-    id: "2",
-    name: "First Blood 456",
-    price: "450",
-    category: "Drama",
-    createdAt: "2003",
-  },
-  {
-    id: "3",
-    name: "Canada 34",
-    price: "120",
-    category: "Action",
-    createdAt: "2023",
-  },
-];
-
-const Page = () => {
+const Page = async () => {
+  const products = await getProducts();
   return (
     <div>
       <div className="flex items-start justify-between">
@@ -42,7 +20,7 @@ const Page = () => {
         </Button>
       </div>
       <Separator className="my-6" />
-      <DataTable searchKey="name" data={data} columns={productColumns} />
+      <DataTable searchKey="name" data={products} columns={productColumns} />
     </div>
   );
 };

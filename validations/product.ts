@@ -11,5 +11,6 @@ export const productSchema = z.object({
   price: z.string().regex(/^\d+(\.\d{1,2})?$/, {
     message: "Must be a valid price",
   }),
-  image: z.string().url({message: "Please add a valid image url"})
+  image: z.string().optional()
+  //.url({message: "Please add a valid image url"})
 });

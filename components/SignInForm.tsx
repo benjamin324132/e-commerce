@@ -16,10 +16,13 @@ import {
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Loader2 } from "lucide-react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type SignInData = z.infer<typeof signInSchema>;
 
 const SignInForm = () => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<SignInData>({
@@ -30,7 +33,27 @@ const SignInForm = () => {
     },
   });
 
-  const onSubmit = (values: SignInData) => {};
+  const onSubmit = (values: SignInData) => {
+    setIsLoading(true);
+    signIn("credentials", {
+      email: values.email,
+      password: values.password,
+      redirect: false,
+    })
+      .then((callback) => {
+        console.log(callback)
+        if (callback?.error) {
+          console.log(callback.error);
+          return
+        }
+
+        if (callback?.ok) {
+          router.push("/");
+        }
+
+      })
+      .finally(() => setIsLoading(false));
+  };
 
   return (
     <Form {...form}>

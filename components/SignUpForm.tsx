@@ -16,10 +16,14 @@ import {
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Loader2 } from "lucide-react";
+import axios from "axios";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type SignUpData = z.infer<typeof signUpSchema>;
 
 const SignUpForm = () => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<SignUpData>({
@@ -31,7 +35,30 @@ const SignUpForm = () => {
     },
   });
 
-  const onSubmit = (values: SignUpData) => {};
+  const onSubmit = async (values: SignUpData) => {
+    setIsLoading(true);
+    try {
+      const { data } = await axios.post("/api/users/register", values);
+      signIn("credentials", {
+        email: values.email,
+        password: values.password,
+        redirect: false,
+      })
+        .then((callback) => {
+          if (callback?.ok) {
+            router.push("/");
+          }
+
+          if (callback?.error) {
+            console.log(callback.error);
+          }
+        })
+        .finally(() => setIsLoading(false));
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Form {...form}>

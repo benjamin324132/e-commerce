@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,11 +26,16 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { productSchema } from "@/validations/product";
 import { Textarea } from "../ui/textarea";
+import { addProduct } from "@/actions/products";
+import { allCategories } from "@/config/categories";
+import { useToast } from "../ui/use-toast";
 
-type ProductType = z.infer<typeof productSchema>;
+export type ProductType = z.infer<typeof productSchema>;
 
 const AddProductForm = () => {
   const [isLoading, setIsLoading] = useState(false);
+  let [isPending, startTransition] = useTransition();
+  const { toast } = useToast()
 
   const form = useForm<ProductType>({
     resolver: zodResolver(productSchema),
@@ -44,7 +49,20 @@ const AddProductForm = () => {
     },
   });
 
-  const onSubmit = (values: ProductType) => {};
+  const onSubmit = (values: ProductType) => {
+    startTransition(async () => {
+      try {
+        const product = await addProduct(values);
+        form.reset();
+        toast({
+          title:"Product added"
+        });
+        console.log("Product added", product);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  };
 
   return (
     <Form {...form}>
@@ -105,21 +123,21 @@ const AddProductForm = () => {
               <FormItem className="w-full">
                 <FormLabel>Category</FormLabel>
                 <FormControl>
-                  <Select
-                    value={field.value}
-                    onValueChange={field.onChange}
-                  >
+                  <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select a fruit" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
                         <SelectLabel>Categories</SelectLabel>
-                        <SelectItem value="apple">Apple</SelectItem>
-                        <SelectItem value="banana">Banana</SelectItem>
-                        <SelectItem value="blueberry">Blueberry</SelectItem>
-                        <SelectItem value="grapes">Grapes</SelectItem>
-                        <SelectItem value="pineapple">Pineapple</SelectItem>
+                        {allCategories.map((cat) => (
+                          <SelectItem
+                            key={cat.slug}
+                            value={cat.slug.replace("/", "")}
+                          >
+                            {cat.label}
+                          </SelectItem>
+                        ))}
                       </SelectGroup>
                     </SelectContent>
                   </Select>
@@ -156,8 +174,8 @@ const AddProductForm = () => {
             </FormItem>
           )}
         />
-        <Button className="w-fit" size="lg" disabled={isLoading}>
-          {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+        <Button className="w-fit" size="lg" disabled={isPending}>
+          {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
           Create
         </Button>
       </form>

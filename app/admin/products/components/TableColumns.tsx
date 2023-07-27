@@ -8,7 +8,7 @@ export type ProductColumn = {
   name: string;
   price: string;
   category: string;
-  createdAt: string;
+  createdAt: Date;
 }
 
 export const productColumns: ColumnDef<ProductColumn>[] = [

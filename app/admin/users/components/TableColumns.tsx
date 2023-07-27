@@ -4,14 +4,14 @@ import { ColumnDef } from "@tanstack/react-table";
 
 export type UsersColumn = {
   id: string;
-  username: string;
+  name: string;
   email: string;
   createdAt: string;
 };
 
 export const usersColumns: ColumnDef<UsersColumn>[] = [
   {
-    accessorKey: "username",
+    accessorKey: "name",
     header: "Name",
   },
   {

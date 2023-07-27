@@ -2,6 +2,7 @@ import { DataTable } from "@/components/DataTable";
 import Heading from "@/components/Heading";
 import { Separator } from "@/components/ui/separator";
 import { usersColumns } from "./components/TableColumns";
+import { getUsers } from "@/actions/getUsers";
 
 const data = [
   {
@@ -23,14 +24,15 @@ const data = [
     createdAt: "2022",
   },
 ];
-const Page = () => {
+const Page = async () => {
+  const users = await getUsers();
   return (
     <div>
       <div className="flex items-start">
         <Heading title="Users" subtitle="Manage your users" />
       </div>
       <Separator className="my-6" />
-      <DataTable searchKey="username" data={data} columns={usersColumns} />
+      <DataTable searchKey="name" data={users} columns={usersColumns} />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-""
+
 const ProductsClient = () => {
     return <div>Products</div>;
   };

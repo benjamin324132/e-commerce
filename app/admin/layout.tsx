@@ -1,6 +1,8 @@
+import { getCurrentUser } from "@/actions/getCurrentUser";
 import Heading from "@/components/Heading";
 import { AdminNavBar } from "@/components/admin/AdminNavBar";
 import { Separator } from "@/components/ui/separator";
+import { redirect } from "next/navigation";
 
 const sidebarNavItems = [
   {
@@ -29,11 +31,17 @@ const sidebarNavItems = [
   },
 ];
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const currentUser = await getCurrentUser();
+
+  if(!currentUser?.isAdmin){
+     redirect("/");
+  }
+
   return (
     <div className="space-y-6 p-6">
       <Heading
