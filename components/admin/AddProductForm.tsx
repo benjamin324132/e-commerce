@@ -23,44 +23,82 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { Loader2, Trash } from "lucide-react";
 import { productSchema } from "@/validations/product";
 import { Textarea } from "../ui/textarea";
-import { addProduct } from "@/actions/products";
+import { addProduct, deleteProduct, updateProduct } from "@/actions/products";
 import { allCategories } from "@/config/categories";
 import { useToast } from "../ui/use-toast";
+import { Product } from "@prisma/client";
+import { useRouter } from "next/navigation";
+import { confirmDialog } from "@/hooks/useConfirmDialog";
 
 export type ProductType = z.infer<typeof productSchema>;
 
-const AddProductForm = () => {
+interface AddProductFormProps {
+  product: Product | null;
+}
+
+const AddProductForm: React.FC<AddProductFormProps> = ({ product }) => {
   const [isLoading, setIsLoading] = useState(false);
   let [isPending, startTransition] = useTransition();
-  const { toast } = useToast()
+  const { toast } = useToast();
+  const router = useRouter();
 
   const form = useForm<ProductType>({
     resolver: zodResolver(productSchema),
     defaultValues: {
-      name: "",
-      slug: "",
-      category: "",
-      description: "",
-      price: "",
-      image: "",
+      name: product?.name || "",
+      slug: product?.slug || "",
+      category: product?.category || "",
+      description: product?.description || "",
+      price: product?.price || "",
+      image: product?.image || "",
     },
   });
 
   const onSubmit = (values: ProductType) => {
     startTransition(async () => {
       try {
-        const product = await addProduct(values);
-        form.reset();
-        toast({
-          title:"Product added"
-        });
-        console.log("Product added", product);
-      } catch (error) {
+        if (product) {
+          const updatedProduct = await updateProduct(values, product.id);
+          router.refresh();
+          toast({
+            title: "Product updated",
+          });
+        } else {
+          const newProduct = await addProduct(values);
+          form.reset();
+          router.refresh();
+          toast({
+            title: "Product added",
+          });
+        }
+      } catch (error: any) {
         console.log(error);
+        toast({
+          title: "Something went wrong",
+          description: error.message,
+        });
       }
+    });
+  };
+
+  const onDelete = (id: string) => {
+    confirmDialog(`You are deleting ${product?.name} from products`, () => {
+      startTransition(async () => {
+        try {
+          await deleteProduct(id);
+          router.replace("/admin/products");
+          toast({
+            title: "Deleted succesfully",
+          });
+        } catch (error) {
+          toast({
+            title: "Something went wrong",
+          });
+        }
+      });
     });
   };
 
@@ -174,10 +212,31 @@ const AddProductForm = () => {
             </FormItem>
           )}
         />
-        <Button className="w-fit" size="lg" disabled={isPending}>
-          {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-          Create
-        </Button>
+        <div className="flex gap-4">
+          <Button className="w-fit" size="lg" disabled={isPending}>
+            {isPending ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : null}
+            {product ? "Update" : "Create"}
+          </Button>
+          {product ? (
+            <Button
+              onClick={() => onDelete(product.id)}
+              type="button"
+              variant="destructive"
+              className="w-fit"
+              size="lg"
+              disabled={isPending}
+            >
+              {isPending ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Trash className="mr-2 h-4 w-4" />
+              )}
+              Delete
+            </Button>
+          ) : null}
+        </div>
       </form>
     </Form>
   );

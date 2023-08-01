@@ -5,9 +5,12 @@ import { UserMenu } from "./UserMenu";
 import { CartMenu } from "./Cart";
 import SearchForm from "./SearchForm";
 import NavMenu from "./NavigationMenu";
+import { getCurrentUser } from "@/actions/getCurrentUser";
+import { User2 } from "lucide-react";
 
-
-const NavBar = () => {
+const NavBar = async () => {
+  const user = await getCurrentUser();
+  const link = user ? (user.isAdmin ? "/admin" : "/account") : "/signin";
   return (
     <nav className="container py-6 flex items-center justify-between">
       <div className="flex items-center gap-6">
@@ -15,14 +18,10 @@ const NavBar = () => {
         <NavMenu />
       </div>
       <div className="flex items-center gap-6">
-        {/*<Button variant="outline" asChild>
-          <Link href="/signup">Sign up</Link>
-        </Button>
-        <Button asChild>
-          <Link href="/signin">Sign in</Link>
-        </Button>*/}
         <SearchForm />
-        <UserMenu />
+        <Link href={link}>
+          <User2 className="w-7 h-7 cursor-pointer" />
+        </Link>
         <CartMenu />
       </div>
     </nav>

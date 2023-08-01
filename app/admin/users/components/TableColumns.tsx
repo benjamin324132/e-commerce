@@ -1,6 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
+import moment from "moment";
 
 export type UsersColumn = {
   id: string;
@@ -21,5 +22,6 @@ export const usersColumns: ColumnDef<UsersColumn>[] = [
   {
     accessorKey: "createdAt",
     header: "Date",
+    cell: ({ row }) =>  <>{moment(row.original.createdAt).format('MMMM DD, yyyy')}</>
   },
 ];

@@ -1,15 +1,25 @@
+import { getProduct } from "@/actions/products";
 import Heading from "@/components/Heading";
 import AddProductForm from "@/components/admin/AddProductForm";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Plus } from "lucide-react";
-import Link from "next/link";
+import { Product } from "@prisma/client";
+import { notFound } from "next/navigation";
 
 interface IParams {
   productId: string;
 }
 
-const Page = ({ params }: { params: IParams }) => {
+const Page = async ({ params }: { params: IParams }) => {
+  let product: Product | null = null;
+
+  if (params.productId !== "create") {
+    product = await getProduct(params.productId);
+
+    if (!product) {
+      notFound();
+    }
+  }
+
   return (
     <div>
       <div className="flex items-start justify-between">
@@ -19,7 +29,7 @@ const Page = ({ params }: { params: IParams }) => {
         />
       </div>
       <Separator className="my-6" />
-      <AddProductForm />
+      <AddProductForm product={product} />
     </div>
   );
 };

@@ -1,6 +1,8 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
+import moment from "moment";
+import ProductActions from "./ProductActions";
 
 
 export type ProductColumn = {
@@ -8,6 +10,7 @@ export type ProductColumn = {
   name: string;
   price: string;
   category: string;
+  slug: string;
   createdAt: Date;
 }
 
@@ -19,6 +22,7 @@ export const productColumns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: "price",
     header: "Price",
+    cell: ({ row }) =>  <>${row.original.price}</>
   },
   {
     accessorKey: "category",
@@ -27,5 +31,10 @@ export const productColumns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: "createdAt",
     header: "Date",
+    cell: ({ row }) =>  <>{moment(row.original.createdAt).format('MMMM DD, yyyy')}</>
   },
+  {
+    id:"actions",
+    cell: ({ row }) => <ProductActions product={row.original} />
+  }
 ];

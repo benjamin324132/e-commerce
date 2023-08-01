@@ -4,17 +4,17 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 
 import { cn } from "@/lib/utils"
-import { buttonVariants } from "../ui/button"
+import { buttonVariants } from "./ui/button"
 
 
-interface AdminNavBarProps extends React.HTMLAttributes<HTMLElement> {
+interface LateralNavBarProps extends React.HTMLAttributes<HTMLElement> {
   items: {
     href: string
     title: string
   }[]
 }
 
-export function AdminNavBar({ className, items, ...props }: AdminNavBarProps) {
+export function LateralNavBar({ className, items, ...props }: LateralNavBarProps) {
   const pathname = usePathname()
 
   return (

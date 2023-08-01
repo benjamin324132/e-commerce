@@ -7,8 +7,49 @@ import {
 } from "@/components/ui/accordion";
 import { ImageIcon } from "lucide-react";
 import ProductList from "@/components/ProductList";
+import { getProductBySlug } from "@/actions/products";
+import { notFound } from "next/navigation";
+import { Product } from "@prisma/client";
+import { Metadata } from "next";
+import AddToCartForm from "@/components/AddToCartForm";
 
-const Page = () => {
+interface IParams {
+  product: string;
+}
+
+const getProduct = async (slug: string) => {
+  try {
+    const data = await fetch(`http://localhost:3000/api/products/${slug}`);
+    const product = await data.json();
+    return product;
+  } catch (error) {
+    return null;
+  }
+};
+
+export const generateMetadata = async ({
+  params,
+}: {
+  params: IParams;
+}): Promise<Metadata> => {
+  const product: Product = await getProduct(params.product);
+  if (!product) {
+    return {};
+  }
+  return {
+    title: product.name,
+    description: product.description,
+  };
+};
+
+const Page = async ({ params }: { params: IParams }) => {
+  //const product: Product = await getProductBySlug(params.product);
+  const product: Product = await getProduct(params.product);
+
+  if (!product) {
+    notFound();
+  }
+
   return (
     <div className="py-16">
       <div className="container pb-8 flex flex-col md:flex-row gap-6">
@@ -18,41 +59,25 @@ const Page = () => {
           </div>
         </div>
         <div className="flex flex-col gap-y-4 w-full md:w-1/2">
+          <h2 className="text-lg capitalize text-neutral-400 tracking-tight">
+            {product.category}
+          </h2>
           <h2 className="text-4xl font-semibold tracking-tight">
-            Product title
+            {product.name}
           </h2>
-          <h2 className="text-xl text-neutral-400 tracking-tight">
-            Product Description
+          <h2 className="text-3xl font-semibold tracking-tight">
+            ${product.price}
           </h2>
-          <h2 className="text-3xl font-semibold tracking-tight">$300.00</h2>
-          <div>
-            <Button size="lg">Add to cart</Button>
-          </div>
+          <AddToCartForm product={product} />
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">
-              <AccordionTrigger>Is it accessible?</AccordionTrigger>
-              <AccordionContent>
-                Yes. It adheres to the WAI-ARIA design pattern.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-2">
-              <AccordionTrigger>Is it styled?</AccordionTrigger>
-              <AccordionContent>
-                Yes. It comes with default styles that matches the other
-                components&apos; aesthetic.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-3">
-              <AccordionTrigger>Is it animated?</AccordionTrigger>
-              <AccordionContent>
-                Yes. It&apos;s animated by default, but you can disable it if
-                you prefer.
-              </AccordionContent>
+              <AccordionTrigger>Description</AccordionTrigger>
+              <AccordionContent>{product.description}</AccordionContent>
             </AccordionItem>
           </Accordion>
         </div>
       </div>
-      <ProductList />
+      <ProductList products={[]} />
     </div>
   );
 };

@@ -1,11 +1,19 @@
+import { getCurrentUser } from "@/actions/getCurrentUser";
 import Logo from "@/components/Logo";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { redirect } from "next/navigation";
 
-export default function AuthkLayout({
+export default async function AuthkLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const user = await getCurrentUser();
+
+  if (user) {
+    redirect("/");
+  }
+
   return (
     <div className=" min-h-screen grid grid-cols-1 md:grid-cols-2 overflow-hidden">
       <AspectRatio ratio={16 / 9} className="bg-neutral-200">
