@@ -1,21 +1,25 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "./ui/button"
-
+import { cn } from "@/lib/utils";
+import { Button, buttonVariants } from "./ui/button";
+import { signOut } from "next-auth/react";
 
 interface LateralNavBarProps extends React.HTMLAttributes<HTMLElement> {
   items: {
-    href: string
-    title: string
-  }[]
+    href: string;
+    title: string;
+  }[];
 }
 
-export function LateralNavBar({ className, items, ...props }: LateralNavBarProps) {
-  const pathname = usePathname()
+export function LateralNavBar({
+  className,
+  items,
+  ...props
+}: LateralNavBarProps) {
+  const pathname = usePathname();
 
   return (
     <nav
@@ -40,6 +44,13 @@ export function LateralNavBar({ className, items, ...props }: LateralNavBarProps
           {item.title}
         </Link>
       ))}
+      <Button
+        onClick={() => signOut()}
+        variant="ghost"
+        className={" hover:bg-neutral-100 justify-start"}
+      >
+        Sign Out
+      </Button>
     </nav>
-  )
+  );
 }

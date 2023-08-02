@@ -27,6 +27,7 @@ export const productColumns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: "category",
     header: "Category",
+    cell: ({ row }) =>  <span className=" capitalize">{row.original.category}</span>
   },
   {
     accessorKey: "createdAt",

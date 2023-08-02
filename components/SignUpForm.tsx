@@ -1,6 +1,6 @@
 "use client";
 
-import { signUpSchema } from "@/validations/auth";
+import {  signUpSchema } from "@/validations/auth";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
@@ -12,19 +12,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import axios from "axios";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
+import axios from "axios";
 
 type SignUpData = z.infer<typeof signUpSchema>;
 
 const SignUpForm = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { toast} = useToast();
 
   const form = useForm<SignUpData>({
     resolver: zodResolver(signUpSchema),
@@ -50,6 +52,10 @@ const SignUpForm = () => {
           }
 
           if (callback?.error) {
+            toast({
+              title:"Something went wrong",
+              description: callback.error
+            });
             console.log(callback.error);
           }
         })

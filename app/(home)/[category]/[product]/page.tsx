@@ -12,6 +12,7 @@ import { notFound } from "next/navigation";
 import { Product } from "@prisma/client";
 import { Metadata } from "next";
 import AddToCartForm from "@/components/AddToCartForm";
+import RecomendedProducts from "@/components/RecomendedProducts";
 
 interface IParams {
   product: string;
@@ -77,7 +78,7 @@ const Page = async ({ params }: { params: IParams }) => {
           </Accordion>
         </div>
       </div>
-      <ProductList products={[]} />
+      <RecomendedProducts id={product.id} category={product.category} />
     </div>
   );
 };

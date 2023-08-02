@@ -18,7 +18,7 @@ const Page = async ({ params }: { params: IParams }) => {
   
   return (
     <div className="py-8">
-      <ProductList products={products} />
+      <ProductList title={params.category} products={products} />
     </div>
   );
 };

@@ -51,7 +51,6 @@ export default async function AdminLayout({
           title="Admin"
           subtitle="Manage your account settings and set e-mail preferences."
         />
-        <UserMenu />
       </div>
       <Separator className="my-6" />
       <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-6 lg:space-y-0">
