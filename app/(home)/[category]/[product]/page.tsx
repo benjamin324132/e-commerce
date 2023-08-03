@@ -13,6 +13,7 @@ import { Product } from "@prisma/client";
 import { Metadata } from "next";
 import AddToCartForm from "@/components/AddToCartForm";
 import RecomendedProducts from "@/components/RecomendedProducts";
+import Image from "next/image";
 
 interface IParams {
   product: string;
@@ -55,8 +56,12 @@ const Page = async ({ params }: { params: IParams }) => {
     <div className="py-16">
       <div className="container pb-8 flex flex-col md:flex-row gap-6">
         <div className="w-full md:w-1/2">
-          <div className="aspect-square w-full h-full grid place-items-center bg-neutral-200">
-            <ImageIcon className="w-8 h-8" />
+          <div className="relative aspect-square w-full h-full grid place-items-center bg-neutral-200">
+          {product.image ? (
+                <Image className=" object-cover" fill src={product.image} alt={product.name} />
+              ) : (
+                <ImageIcon className="w-8 h-8" />
+              )}
           </div>
         </div>
         <div className="flex flex-col gap-y-4 w-full md:w-1/2">

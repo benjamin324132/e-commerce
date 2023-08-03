@@ -1,5 +1,5 @@
 "use client";
-import { CalendarDays, ShoppingBag } from "lucide-react";
+import { CalendarDays, ImageIcon, ShoppingBag } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,7 @@ import Link from "next/link";
 import { Separator } from "./ui/separator";
 import useCart from "@/hooks/useCart";
 import { useMemo } from "react";
+import Image from "next/image";
 
 export function CartMenu() {
   const cart = useCart();
@@ -38,7 +39,18 @@ export function CartMenu() {
               <Separator />
               {cart.items.map((item) => (
                 <div key={item.id} className="flex gap-x-4">
-                  <div className="relative w-24 h-24 bg-neutral-200 rounded-md overflow-hidden"></div>
+                  <div className="relative w-24 h-24 bg-neutral-200 rounded-md overflow-hidden grid place-items-center">
+                    {item.image ? (
+                      <Image
+                        className=" object-cover"
+                        fill
+                        src={item.image}
+                        alt={item.name}
+                      />
+                    ) : (
+                      <ImageIcon className="w-4 h-4" />
+                    )}
+                  </div>
                   <div>
                     <h3 className=" font-semibold">{item.name}</h3>
                     <h3 className=" text-sm text-neutral-300">${item.price}</h3>

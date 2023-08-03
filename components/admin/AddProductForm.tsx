@@ -32,8 +32,12 @@ import { useToast } from "../ui/use-toast";
 import { Product } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { confirmDialog } from "@/hooks/useConfirmDialog";
+import { OurFileRouter } from "@/app/api/uploadthing/core";
+import { generateReactHelpers } from "@uploadthing/react/hooks";
 
 export type ProductType = z.infer<typeof productSchema>;
+
+const { useUploadThing } = generateReactHelpers<OurFileRouter>();
 
 interface AddProductFormProps {
   product: Product | null;
@@ -45,7 +49,9 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product }) => {
   const { toast } = useToast();
   const router = useRouter();
 
-  const form = useForm<ProductType>({
+  const { isUploading, startUpload } = useUploadThing("imageUploader");
+
+  const { watch, ...form }= useForm<ProductType>({
     resolver: zodResolver(productSchema),
     defaultValues: {
       name: product?.name || "",
@@ -57,9 +63,22 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product }) => {
     },
   });
 
+  const image = watch("image");
+
   const onSubmit = (values: ProductType) => {
     startTransition(async () => {
       try {
+        if(values.image){
+
+          const imageUrl = await startUpload([values?.image]).then((res) => {
+            if (res && res[0]) {
+              res[0].fileUrl;
+              return res[0].fileUrl;
+            }
+          });
+          values['image'] = imageUrl;
+        }
+      
         if (product) {
           const updatedProduct = await updateProduct(values, product.id);
           router.refresh();
@@ -68,12 +87,14 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product }) => {
           });
         } else {
           const newProduct = await addProduct(values);
+          console.log("new", newProduct)
           form.reset();
           router.refresh();
           toast({
             title: "Product added",
           });
         }
+     
       } catch (error: any) {
         console.log(error);
         toast({
@@ -103,7 +124,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product }) => {
   };
 
   return (
-    <Form {...form}>
+    <Form watch={watch} {...form}>
       <form
         className="grid gap-4 md:max-w-xl"
         onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
@@ -201,11 +222,21 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product }) => {
         <FormField
           control={form.control}
           name="image"
-          render={({ field }) => (
+          render={({ field: { value, onChange, ...field } }) => (
             <FormItem>
               <FormLabel>Image</FormLabel>
               <FormControl>
-                <Input type="file" placeholder="Product image" {...field} />
+                <Input
+                  type="file"
+                  value={value?.filename}
+                  onChange={(event) => {
+                    if (event.target.files && event.target.files[0]) {
+                      onChange(event.target.files[0]);
+                    }
+                  }}
+                  placeholder="Product image"
+                  {...field}
+                />
               </FormControl>
               <FormDescription>Image file must be max 3MB</FormDescription>
               <FormMessage />

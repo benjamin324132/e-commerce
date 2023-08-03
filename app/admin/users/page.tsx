@@ -2,7 +2,7 @@ import { DataTable } from "@/components/DataTable";
 import Heading from "@/components/Heading";
 import { Separator } from "@/components/ui/separator";
 import { usersColumns } from "./components/TableColumns";
-import { getUsers } from "@/actions/getUsers";
+import { getUsers } from "@/actions/users";
 
 const data = [
   {

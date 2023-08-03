@@ -39,6 +39,18 @@ export const getProductsByCategory = async (category: string) => {
   return products;
 };
 
+export const searchProducts = async (query?: string) => {
+  const products = await prismaDb.product.findMany({
+    where: {
+      name:{
+        contains:query,
+      },
+    },
+  });
+
+  return products;
+};
+
 
 export const addProduct = async (values: ProductType) => {
   const productExist = await prismaDb.product.findMany({

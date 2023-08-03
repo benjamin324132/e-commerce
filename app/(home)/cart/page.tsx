@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import useCart from "@/hooks/useCart";
 import { ImageIcon, Trash } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
 
@@ -28,7 +29,16 @@ const Page = () => {
               <div className="relative w-40 h-40  md:w-80 md:h-80 bg-neutral-200 rounded-md overflow-hidden">
                 <AspectRatio ratio={1 / 1}>
                   <div className="w-full h-full grid place-items-center bg-neutral-200">
-                    <ImageIcon className="w-8 h-8" />
+                    {item.image ? (
+                      <Image
+                        className=" object-cover"
+                        fill
+                        src={item.image}
+                        alt={item.name}
+                      />
+                    ) : (
+                      <ImageIcon className="w-8 h-8" />
+                    )}
                   </div>
                 </AspectRatio>
               </div>
@@ -40,7 +50,10 @@ const Page = () => {
                   ${item.price}
                 </h3>
               </div>
-              <div onClick={() => cart.removeItem(item.id)} className="absolute top-0 right-0 cursor-pointer">
+              <div
+                onClick={() => cart.removeItem(item.id)}
+                className="absolute top-0 right-0 cursor-pointer"
+              >
                 <Trash />
               </div>
             </div>
