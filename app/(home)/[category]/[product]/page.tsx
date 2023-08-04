@@ -20,7 +20,7 @@ interface IParams {
 
 const getProduct = async (slug: string) => {
   try {
-    const data = await fetch(`http://localhost:3000/api/products/${slug}`);
+    const data = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/products/${slug}`);
     const product = await data.json();
     return product;
   } catch (error) {
