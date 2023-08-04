@@ -1,19 +1,21 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
+import moment from "moment";
 
 export type OrdersColumn = {
   id: string;
-  username: string;
+  name: string;
   address: string;
+  email: string;
   phone: string;
-  totalPrice: string;
-  createdAt: string;
+  //totalPrice: string;
+  createdAt: Date;
 };
 
 export const ordersColumns: ColumnDef<OrdersColumn>[] = [
   {
-    accessorKey: "username",
+    accessorKey: "name",
     header: "Name",
   },
   {
@@ -25,11 +27,16 @@ export const ordersColumns: ColumnDef<OrdersColumn>[] = [
     header: "Phone",
   },
   {
+    accessorKey: "email",
+    header: "Eamil",
+  },
+ /* {
     accessorKey: "totalPrice",
     header: "Total",
-  },
+  },*/
   {
     accessorKey: "createdAt",
     header: "Date",
+    cell: ({ row }) =>  <>{moment(row.original.createdAt).format('MMMM DD, yyyy')}</>
   },
 ];

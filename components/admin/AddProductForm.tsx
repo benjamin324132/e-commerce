@@ -51,7 +51,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product }) => {
 
   const { isUploading, startUpload } = useUploadThing("imageUploader");
 
-  const { watch, ...form }= useForm<ProductType>({
+  const {...form }= useForm<ProductType>({
     resolver: zodResolver(productSchema),
     defaultValues: {
       name: product?.name || "",
@@ -59,11 +59,9 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product }) => {
       category: product?.category || "",
       description: product?.description || "",
       price: product?.price || "",
-      image: product?.image || "",
+      image: null,
     },
   });
-
-  const image = watch("image");
 
   const onSubmit = (values: ProductType) => {
     startTransition(async () => {
@@ -124,7 +122,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product }) => {
   };
 
   return (
-    <Form watch={watch} {...form}>
+    <Form {...form}>
       <form
         className="grid gap-4 md:max-w-xl"
         onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}

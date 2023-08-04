@@ -20,6 +20,7 @@ model User {
   updatedAt     DateTime @updatedAt
   accounts      Account[]
   sessions      Session[]
+  orders        Order[] @relation("UserToOrder")
 }
 
 model Account {
@@ -52,11 +53,40 @@ model Session {
 model Product {
   id            String    @id @default(cuid())
   name          String
-  slug          String
+  slug          String    @unique
   description   String?   @db.Text
   category      String
   price         String
   image         String?
+  orderItems    OrderItem[] 
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+}
+
+model Order {
+  id            String    @id @default(cuid())
+  name          String
+  lastName      String
+  email         String
+  address       String    @db.Text
+  phone         String
+  zipCode       String
+  city          String
+  userId        String
+  user          User     @relation("UserToOrder", fields: [userId], references: [id])
+  products      OrderItem[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  @@index([userId])
+}
+
+model OrderItem {
+  id        String  @id @default(uuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@index([orderId])
+  @@index([productId])
 }

@@ -63,7 +63,7 @@ export function CartMenu() {
                 <h3 className="font-bold">${total}</h3>
               </div>
               <Button className="w-full" size="lg" asChild>
-                <Link href="/cart">Proceed to checkout</Link>
+                <Link href="/checkout">Proceed to checkout</Link>
               </Button>
             </div>
           </div>
