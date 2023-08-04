@@ -15,8 +15,11 @@ const Loading = () => {
     <div className="container space-y-6">
       <Skeleton className="h-8 w-[300px]" />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {Array.from({ length: 8 }).map((i) => (
-          <Card className="overflow-hidden border-none shadow-none rounded-none">
+        {Array.from({ length: 8 }).map((i, index) => (
+          <Card
+            key={index}
+            className="overflow-hidden border-none shadow-none rounded-none"
+          >
             <CardHeader className="p-0">
               <AspectRatio ratio={8 / 9}>
                 <Skeleton className="relative w-full h-full grid place-items-center">
