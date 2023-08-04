@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Accordion,
   AccordionContent,
@@ -6,7 +5,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ImageIcon } from "lucide-react";
-import ProductList from "@/components/ProductList";
 import { getProductBySlug } from "@/actions/products";
 import { notFound } from "next/navigation";
 import { Product } from "@prisma/client";
@@ -14,6 +12,7 @@ import { Metadata } from "next";
 import AddToCartForm from "@/components/AddToCartForm";
 import RecomendedProducts from "@/components/RecomendedProducts";
 import Image from "next/image";
+import { wait } from "@/lib/utils";
 
 interface IParams {
   product: string;

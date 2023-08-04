@@ -40,3 +40,18 @@ export const createOrder = async (
   });
   return order;
 };
+
+export const getUserOrders = async () => {
+  const user = await getCurrentUser();
+  const orders = await prismaDb.order.findMany({
+    where:{
+     userId: user!.id
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return orders;
+};
+

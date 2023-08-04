@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import Link from "next/link"
+import * as React from "react";
+import Link from "next/link";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -12,59 +12,55 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
-import { Command } from "lucide-react"
-import { allCategories } from "@/config/categories"
-
+} from "@/components/ui/navigation-menu";
+import { Book, Command } from "lucide-react";
+import { allCategories } from "@/config/categories";
 
 const NavMenu = () => {
   return (
     <NavigationMenu className="hidden md:block">
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className=" text-lg font-semibold hover:bg-neutral-100/70">Site</NavigationMenuTrigger>
+          <NavigationMenuTrigger className=" text-lg font-semibold hover:bg-neutral-100/70">
+            Site
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
               <li className="row-span-3">
                 <NavigationMenuLink asChild>
                   <a
-                    className="flex h-full w-full select-none flex-col justify-end rounded-md bg-neutral-100/70 p-6 no-underline outline-none focus:shadow-md"
+                    className="flex h-full w-full select-none flex-col justify-end rounded-md bg-yellow-400/70 p-6 no-underline outline-none focus:shadow-md"
                     href="/"
                   >
-                    <Command className="h-6 w-6" />
-                    <div className="mb-2 mt-4 text-lg font-medium">
-                      shadcn/ui
-                    </div>
+                    <Book className="h-6 w-6" />
+                    <div className="mb-2 mt-4 text-lg font-medium">GO24</div>
                     <p className="text-sm leading-tight text-muted-foreground">
-                      Beautifully designed components built with Radix UI and
-                      Tailwind CSS.
+                      Find the best books on the internet
                     </p>
                   </a>
                 </NavigationMenuLink>
               </li>
-              <ListItem href="/docs" title="Introduction">
-                Re-usable components built using Radix UI and Tailwind CSS.
+              <ListItem href="/" title="Site">
+                Find the best books on the internet
               </ListItem>
-              <ListItem href="/docs/installation" title="Installation">
-                How to install dependencies and structure your app.
+              <ListItem href="/blog" title="Blog">
+                Discover the latest posts
               </ListItem>
-              <ListItem href="/docs/primitives/typography" title="Typography">
-                Styles for headings, paragraphs, lists...etc
+              <ListItem href="/contact" title="Contact">
+                Reach us
               </ListItem>
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="text-lg font-semibold hover:bg-neutral-100/70">Categories</NavigationMenuTrigger>
+          <NavigationMenuTrigger className="text-lg font-semibold hover:bg-neutral-100/70">
+            Categories
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
               {allCategories.map((cat) => (
-                <ListItem
-                  key={cat.slug}
-                  title={cat.label}
-                  href={cat.slug}
-                >
-                  A modal dialog that interrupts the user with important content and expects a response.
+                <ListItem key={cat.slug} title={cat.label} href={cat.slug}>
+                  Category description text
                 </ListItem>
               ))}
             </ul>
@@ -72,8 +68,8 @@ const NavMenu = () => {
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
-  )
-}
+  );
+};
 
 export default NavMenu;
 
@@ -99,6 +95,6 @@ const ListItem = React.forwardRef<
         </a>
       </NavigationMenuLink>
     </li>
-  )
-})
-ListItem.displayName = "ListItem"
+  );
+});
+ListItem.displayName = "ListItem";

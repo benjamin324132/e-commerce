@@ -5,6 +5,7 @@ import { UserMenu } from "@/components/UserMenu";
 import { LateralNavBar } from "@/components/LateralNavBar";
 import { Separator } from "@/components/ui/separator";
 import { redirect } from "next/navigation";
+import { Metadata } from "next";
 
 const sidebarNavItems = [
   {
@@ -32,6 +33,11 @@ const sidebarNavItems = [
     href: "/admin/settings",
   },
 ];
+
+export const metadata: Metadata = {
+  title: "Admin",
+  description: "Manage your e-commerce",
+}
 
 export default async function AdminLayout({
   children,

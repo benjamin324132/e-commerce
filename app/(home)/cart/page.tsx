@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import useCart from "@/hooks/useCart";
 import { ImageIcon, Trash } from "lucide-react";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
@@ -64,15 +65,15 @@ const Page = () => {
           <Separator />
           <div className="flex items-center justify-between">
             <h3 className="font-bold">Products</h3>
-            <h3 className="font-bold">250.00</h3>
+            <h3 className="font-bold">${total}</h3>
           </div>
           <div className="flex items-center justify-between">
             <h3 className="font-bold">Delivery</h3>
-            <h3 className="font-bold">20.00</h3>
+            <h3 className="font-bold">Free</h3>
           </div>
           <div className="flex items-center justify-between">
             <h3 className="font-bold">Tax</h3>
-            <h3 className="font-bold">30.00</h3>
+            <h3 className="font-bold">00.00</h3>
           </div>
           <Separator />
           <div className="flex items-center justify-between">

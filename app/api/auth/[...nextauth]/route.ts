@@ -60,6 +60,7 @@ export const authOptions: AuthOptions = {
     jwt: async ({ user, token }) => {
       if (user) {
         token.uid = user.id;
+        //@ts-ignore
         token.isAdmin = user.isAdmin
       }
       return token;

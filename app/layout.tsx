@@ -10,8 +10,38 @@ const lato = Lato({
 });
 
 export const metadata: Metadata = {
-  title: "GO24 Bookstore",
+  title: {
+    default: "GO24 Bookstore",
+    template: ` %s | GO24 Bookstore`
+  },
   description: "Find your next book",
+  keywords: [
+    "Books",
+    "E-commerce",
+    "Next js",
+    "React",
+    "Prisma",
+    "Tailwind CSS",
+  ],
+  authors: [
+    {
+      name: "Benjamin",
+      url: "https://github.com/benjamin324132",
+    },
+  ],
+  creator: "shadcn",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    //url: "",
+    title: "GO24 Bookstore",
+    description: "Find your next book",
+    siteName: "GO24 Bookstore",
+  },
 };
 
 export default function RootLayout({

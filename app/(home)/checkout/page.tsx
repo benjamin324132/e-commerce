@@ -2,7 +2,13 @@ import { getCurrentUser } from "@/actions/getCurrentUser";
 import CheckoutForm from "@/components/CheckoutForm";
 import Heading from "@/components/Heading";
 import OrderSumary from "@/components/OrderSummary";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Checkout",
+  description: "Order your products",
+}
 
 const Page = async () => {
   const user = await getCurrentUser();

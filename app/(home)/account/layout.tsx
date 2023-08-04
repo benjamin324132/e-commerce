@@ -2,6 +2,7 @@ import { getCurrentUser } from "@/actions/getCurrentUser";
 import Heading from "@/components/Heading";
 import { LateralNavBar } from "@/components/LateralNavBar";
 import { Separator } from "@/components/ui/separator";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 const sidebarNavItems = [
@@ -18,6 +19,11 @@ const sidebarNavItems = [
     href: "/account/info",
   },
 ];
+
+export const metadata: Metadata = {
+  title: "My Account",
+  description: "Manage your account",
+}
 
 export default async function AccountLayout({
   children,
