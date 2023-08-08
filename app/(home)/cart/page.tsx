@@ -8,10 +8,16 @@ import { ImageIcon, Trash } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const Page = () => {
+  const [mounted, setMounted] = useState(false)
   const cart = useCart();
+
+  useEffect(() => {
+   setMounted(true)
+  },[])
+
   const total = useMemo(() => {
     const sum = cart.items.reduce(
       (acc, item) => (acc += parseInt(item.price)),
@@ -19,6 +25,11 @@ const Page = () => {
     );
     return sum;
   }, [cart.items]);
+
+
+  if(!mounted){
+    return null
+  }
 
   return (
     <div className="container">
@@ -29,7 +40,7 @@ const Page = () => {
             <div key={item.id} className="flex gap-x-4 relative">
               <div className="relative w-40 h-40  md:w-80 md:h-80 bg-neutral-200 rounded-md overflow-hidden">
                 <AspectRatio ratio={1 / 1}>
-                  <div className="w-full h-full grid place-items-center bg-neutral-200">
+                  <div className=" w-40 h-40  md:w-80 md:h-80 grid place-items-center bg-neutral-200">
                     {item.image ? (
                       <Image
                         className=" object-cover"

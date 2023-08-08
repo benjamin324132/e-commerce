@@ -1,10 +1,11 @@
 "use client";
 import useCart from "@/hooks/useCart";
 import { Separator } from "./ui/separator";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const OrderSumary = () => {
   const cart = useCart();
+  const [mounted, setMounted] = useState(false)
   
   const total = useMemo(() => {
     const sum = cart.items.reduce(
@@ -13,6 +14,14 @@ const OrderSumary = () => {
     );
     return sum;
   }, [cart.items]);
+
+  useEffect(() => {
+    setMounted(true)
+   },[]);
+
+   if(!mounted){
+    return null
+  }
 
   return (
     <div className="md:w-1/3 md:p-8 mt-8 md:m-0 flex flex-col gap-4">

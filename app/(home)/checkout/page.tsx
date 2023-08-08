@@ -1,5 +1,5 @@
 import { getCurrentUser } from "@/actions/getCurrentUser";
-import CheckoutForm from "@/components/CheckoutForm";
+import CheckoutForm from "@/components/forms/CheckoutForm";
 import Heading from "@/components/Heading";
 import OrderSumary from "@/components/OrderSummary";
 import { Metadata } from "next";

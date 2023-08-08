@@ -1,6 +1,6 @@
 "use client";
 import { Product } from "@prisma/client";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import useCart from "@/hooks/useCart";
 
 interface AddToCartFormProps {

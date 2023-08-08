@@ -15,16 +15,18 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { createOrder } from "@/actions/orders";
 import { User } from "next-auth";
 import useCart from "@/hooks/useCart";
-import { useToast } from "./ui/use-toast";
+import { useToast } from "../ui/use-toast";
+import Heading from "../Heading";
 
 export type CheckoutInfo = z.infer<typeof checkoutSchema>;
 
 const CheckoutForm = () => {
+  const [mounted, setMounted] = useState(false)
   let [isPending, startTransition] = useTransition();
   const { toast } = useToast();
   const cart = useCart();
@@ -64,6 +66,25 @@ const CheckoutForm = () => {
       }
     });
   };
+  useEffect(() => {
+    setMounted(true)
+   },[]);
+
+   if(!mounted){
+    return null
+  }
+
+  if (cart.items.length == 0) {
+    return (
+      <div className="flex-1 h-full w-full flex items-center justify-center">
+         <Heading
+         title="Your cart is empty"
+         subtitle="Add some products to your cart"
+         center
+         />
+      </div>
+    );
+  }
 
   return (
     <Form {...form}>
@@ -171,11 +192,9 @@ const CheckoutForm = () => {
           />
         </div>
         <Button className="md:w-fit h-9 px-20" size="lg" disabled={isPending}>
-            {isPending ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : null}
-            Order
-          </Button>
+          {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+          Order
+        </Button>
       </form>
     </Form>
   );

@@ -9,7 +9,7 @@ import { getProductBySlug } from "@/actions/products";
 import { notFound } from "next/navigation";
 import { Product } from "@prisma/client";
 import { Metadata } from "next";
-import AddToCartForm from "@/components/AddToCartForm";
+import AddToCartForm from "@/components/forms/AddToCartForm";
 import RecomendedProducts from "@/components/RecomendedProducts";
 import Image from "next/image";
 import { wait } from "@/lib/utils";

@@ -1,6 +1,6 @@
 "use server";
 
-import { CheckoutInfo } from "@/components/CheckoutForm";
+import { CheckoutInfo } from "@/components/forms/CheckoutForm";
 import prismaDb from "@/lib/db";
 import { getCurrentUser } from "./getCurrentUser";
 

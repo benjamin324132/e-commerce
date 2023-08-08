@@ -134,7 +134,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product }) => {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="Product nanme" {...field} />
+                <Input placeholder="Product name" {...field} />
               </FormControl>
               <FormDescription>
                 Please enter a valid product name

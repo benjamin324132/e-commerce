@@ -1,5 +1,11 @@
 import Heading from "@/components/Heading";
-import SignUpForm from "@/components/SignUpForm";
+import SignUpForm from "@/components/forms/SignUpForm";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Sign Up",
+  description: "Find your next book",
+}
 
 const Page = () => {
   return (
