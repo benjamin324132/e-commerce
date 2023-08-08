@@ -19,13 +19,14 @@ import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
+import Link from "next/link";
 
 type SignInData = z.infer<typeof signInSchema>;
 
 const SignInForm = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const { toast} = useToast();
+  const { toast } = useToast();
 
   const form = useForm<SignInData>({
     resolver: zodResolver(signInSchema),
@@ -43,20 +44,19 @@ const SignInForm = () => {
       redirect: false,
     })
       .then((callback) => {
-        console.log(callback)
+        console.log(callback);
         if (callback?.error) {
           console.log(callback.error);
           toast({
-            title:"Something went wrong",
-            description: callback.error
+            title: "Something went wrong",
+            description: callback.error,
           });
-          return
+          return;
         }
 
         if (callback?.ok) {
           router.push("/");
         }
-
       })
       .finally(() => setIsLoading(false));
   };
@@ -98,6 +98,12 @@ const SignInForm = () => {
           Sign In
         </Button>
       </form>
+      <div className="flex">
+        <h3>Dont have an account?</h3>
+        <Link href="/signup" className="font-semibold">
+          Create one
+        </Link>
+      </div>
     </Form>
   );
 };

@@ -44,8 +44,8 @@ export const createOrder = async (
 export const getUserOrders = async () => {
   const user = await getCurrentUser();
   const orders = await prismaDb.order.findMany({
-    where:{
-     userId: user!.id
+    where: {
+      userId: user!.id,
     },
     orderBy: {
       createdAt: "desc",
@@ -55,3 +55,29 @@ export const getUserOrders = async () => {
   return orders;
 };
 
+export const getOrderById = async (id: string) => {
+  const order = await prismaDb.order.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      products:{
+        include:{
+          product:true
+        }
+      }
+    },
+  });
+
+  return order;
+};
+
+export const deleteOrder = async (id: string) => {
+  const order = await prismaDb.order.delete({
+    where: {
+      id,
+    },
+  });
+
+  return order;
+};

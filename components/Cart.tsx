@@ -31,7 +31,7 @@ export function CartMenu() {
           <ShoppingBag className="w-7 h-7" />
         </Link>
       </HoverCardTrigger>
-      <HoverCardContent className=" w-80">
+      <HoverCardContent className="w-80 hidden md:block">
         {cart.items.length > 0 ? (
           <div className="flex justify-between space-x-4">
             <div className="space-y-3 w-full">

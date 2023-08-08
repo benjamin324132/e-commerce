@@ -1,7 +1,10 @@
 "use server";
 
 import { ProductType } from "@/components/admin/AddProductForm";
+import LinearLoginCodeEmail from "@/email/contact-email";
 import prismaDb from "@/lib/db";
+import { resend } from "@/lib/resend";
+import React from "react";
 
 export const getProducts = async () => {
   const products = await prismaDb.product.findMany();

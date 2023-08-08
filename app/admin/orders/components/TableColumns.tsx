@@ -2,6 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
+import OrderActions from "./OrderActions";
 
 export type OrdersColumn = {
   id: string;
@@ -30,13 +31,19 @@ export const ordersColumns: ColumnDef<OrdersColumn>[] = [
     accessorKey: "email",
     header: "Eamil",
   },
- /* {
+  /* {
     accessorKey: "totalPrice",
     header: "Total",
   },*/
   {
     accessorKey: "createdAt",
     header: "Date",
-    cell: ({ row }) =>  <>{moment(row.original.createdAt).format('MMMM DD, yyyy')}</>
+    cell: ({ row }) => (
+      <>{moment(row.original.createdAt).format("MMMM DD, yyyy")}</>
+    ),
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => <OrderActions order={row.original} />,
   },
 ];

@@ -29,7 +29,7 @@ export const metadata: Metadata = {
       url: "https://github.com/benjamin324132",
     },
   ],
-  creator: "shadcn",
+  creator: "Benjamin",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },
     { media: "(prefers-color-scheme: dark)", color: "black" },
