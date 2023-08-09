@@ -20,7 +20,9 @@ interface IParams {
 
 const getProduct = async (slug: string) => {
   try {
-    const data = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/products/${slug}`);
+    const data = await fetch(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/products/${slug}`
+    );
     const product = await data.json();
     return product;
   } catch (error) {
@@ -35,11 +37,41 @@ export const generateMetadata = async ({
 }): Promise<Metadata> => {
   const product: Product = await getProduct(params.product);
   if (!product) {
-    return {};
+    return {
+      title: "Product not found",
+    };
   }
+
+  const url = process.env.NEXT_PUBLIC_APP_URL;
+  let ogUrl: any;
+
+  if (!product.image) {
+    ogUrl = new URL(`${url}/api/og`);
+    ogUrl.searchParams.set("title", product.name);
+  }
+
   return {
     title: product.name,
     description: product.description,
+    openGraph: {
+      title: product.name,
+      description: product.description || "",
+      url: `${process.env.NEXT_PUBLIC_APP_URL}/${product.category}/${product.slug}`,
+      images: [
+        {
+          url: product.image || ogUrl?.toString(),
+          width: 1200,
+          height: 600,
+          alt: product.name,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: product.name,
+      description: product.description || "",
+      images: [product.image || ogUrl.toString()],
+    },
   };
 };
 
@@ -56,11 +88,16 @@ const Page = async ({ params }: { params: IParams }) => {
       <div className="container pb-8 flex flex-col md:flex-row gap-6">
         <div className="w-full md:w-1/2">
           <div className="relative aspect-square w-full h-full grid place-items-center bg-neutral-200">
-          {product.image ? (
-                <Image className=" object-cover" fill src={product.image} alt={product.name} />
-              ) : (
-                <ImageIcon className="w-8 h-8" />
-              )}
+            {product.image ? (
+              <Image
+                className=" object-cover"
+                fill
+                src={product.image}
+                alt={product.name}
+              />
+            ) : (
+              <ImageIcon className="w-8 h-8" />
+            )}
           </div>
         </div>
         <div className="flex flex-col gap-y-4 w-full md:w-1/2">
